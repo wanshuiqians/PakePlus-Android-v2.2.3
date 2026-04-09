@@ -1,11 +1,312 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PakePlus</title>
-    </head>
-    <body>
-        PakePlus
-    </body>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重力八方位地形改正</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 8px;
+            background: #f2f4f7;
+        }
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 16px;
+            border-radius: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 12px;
+            color: #111;
+        }
+        .tip {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .zone {
+            border: 1px solid #e3e3e3;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        .zone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .zone-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .clear-zone {
+            font-size: 12px;
+            color: #007aff;
+            background: none;
+            border: none;
+            padding: 4px 6px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+        .item {
+            text-align: center;
+        }
+        .label {
+            font-size: 11px;
+            color: #555;
+            margin-bottom: 3px;
+        }
+        input {
+            width: 100%;
+            padding: 6px 4px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 6px 0;
+        }
+        .btn-primary {
+            background: #007aff;
+            color: white;
+        }
+        .btn-secondary {
+            background: #f2f4f7;
+            color: #333;
+        }
+        .result {
+            background: #eaf5ff;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            margin: 12px 0;
+        }
+        .result-line {
+            font-size: 15px;
+            margin: 4px 0;
+        }
+        .total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #007aff;
+        }
+        .history {
+            margin-top: 16px;
+        }
+        .history-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+        .history-total {
+            font-weight: 600;
+            color: #007aff;
+        }
+        .empty {
+            font-size: 13px;
+            color: #999;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="title">重力八方位地形改正</div>
+    <div class="tip">高差：高出为正，低于为负 | 单位：m | 结果：g.u.</div>
+
+    <!-- 0-5m -->
+    <div class="zone">
+        <div class="zone-header">
+            <div class="zone-title">环带 0–5 m</div>
+            <button class="clear-zone" onclick="clearZone(0)">清空</button>
+        </div>
+        <div class="grid">
+            <div class="item"><div class="label">0°</div><input id="z0a0" step="0.01"></div>
+            <div class="item"><div class="label">45°</div><input id="z0a1" step="0.01"></div>
+            <div class="item"><div class="label">90°</div><input id="z0a2" step="0.01"></div>
+            <div class="item"><div class="label">135°</div><input id="z0a3" step="0.01"></div>
+            <div class="item"><div class="label">180°</div><input id="z0a4" step="0.01"></div>
+            <div class="item"><div class="label">225°</div><input id="z0a5" step="0.01"></div>
+            <div class="item"><div class="label">270°</div><input id="z0a6" step="0.01"></div>
+            <div class="item"><div class="label">315°</div><input id="z0a7" step="0.01"></div>
+        </div>
+    </div>
+
+    <!-- 5-10m -->
+    <div class="zone">
+        <div class="zone-header">
+            <div class="zone-title">环带 5–10 m</div>
+            <button class="clear-zone" onclick="clearZone(1)">清空</button>
+        </div>
+        <div class="grid">
+            <div class="item"><div class="label">0°</div><input id="z1a0" step="0.01"></div>
+            <div class="item"><div class="label">45°</div><input id="z1a1" step="0.01"></div>
+            <div class="item"><div class="label">90°</div><input id="z1a2" step="0.01"></div>
+            <div class="item"><div class="label">135°</div><input id="z1a3" step="0.01"></div>
+            <div class="item"><div class="label">180°</div><input id="z1a4" step="0.01"></div>
+            <div class="item"><div class="label">225°</div><input id="z1a5" step="0.01"></div>
+            <div class="item"><div class="label">270°</div><input id="z1a6" step="0.01"></div>
+            <div class="item"><div class="label">315°</div><input id="z1a7" step="0.01"></div>
+        </div>
+    </div>
+
+    <!-- 10-20m -->
+    <div class="zone">
+        <div class="zone-header">
+            <div class="zone-title">环带 10–20 m</div>
+            <button class="clear-zone" onclick="clearZone(2)">清空</button>
+        </div>
+        <div class="grid">
+            <div class="item"><div class="label">0°</div><input id="z2a0" step="0.01"></div>
+            <div class="item"><div class="label">45°</div><input id="z2a1" step="0.01"></div>
+            <div class="item"><div class="label">90°</div><input id="z2a2" step="0.01"></div>
+            <div class="item"><div class="label">135°</div><input id="z2a3" step="0.01"></div>
+            <div class="item"><div class="label">180°</div><input id="z2a4" step="0.01"></div>
+            <div class="item"><div class="label">225°</div><input id="z2a5" step="0.01"></div>
+            <div class="item"><div class="label">270°</div><input id="z2a6" step="0.01"></div>
+            <div class="item"><div class="label">315°</div><input id="z2a7" step="0.01"></div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="calculate()">🧮 一键计算</button>
+    <button class="btn btn-secondary" onclick="clearAll()">🗑️ 清空所有输入</button>
+
+    <div class="result">
+        <div class="result-line">环带 0–5m：<span id="r0">0.0000</span></div>
+        <div class="result-line">环带 5–10m：<span id="r1">0.0000</span></div>
+        <div class="result-line">环带 10–20m：<span id="r2">0.0000</span></div>
+        <div class="result-line total">总改正 δg_T = <span id="total">0.0000</span> g.u.</div>
+    </div>
+
+    <div class="history">
+        <div class="history-title">📋 计算历史</div>
+        <div id="historyList"></div>
+        <button class="btn btn-secondary" onclick="exportHistory()" style="margin-top:10px;">💾 导出记录</button>
+        <button class="btn btn-secondary" onclick="clearHistory()" style="margin-top:6px;">🗑️ 清空历史</button>
+    </div>
+</div>
+
+<script>
+const zones = [
+    { r1: 0, r2: 5, prefix: 'z0' },
+    { r1: 5, r2: 10, prefix: 'z1' },
+    { r1: 10, r2: 20, prefix: 'z2' }
+];
+const K = 0.13987;
+
+function getH(zone, angle) {
+    const el = document.getElementById(`${zones[zone].prefix}a${angle}`);
+    return parseFloat(el.value) || 0;
+}
+
+function calcSingle(r1, r2, h) {
+    const t1 = r2 - r1;
+    const t2 = -Math.hypot(r2, h);
+    const t3 = Math.hypot(r1, h);
+    const t4 = h * Math.log((r2 + Math.hypot(r2, h)) / (r1 + Math.hypot(r1, h) || 1e-8));
+    return K * (t1 + t2 + t3 + t4);
+}
+
+function calculate() {
+    let total = 0;
+    const res = [];
+    for (let z = 0; z < 3; z++) {
+        let s = 0;
+        for (let a = 0; a < 8; a++) s += calcSingle(zones[z].r1, zones[z].r2, getH(z, a));
+        res.push(s);
+        total += s;
+        document.getElementById(`r${z}`).innerText = s.toFixed(4);
+    }
+    document.getElementById('total').innerText = total.toFixed(4);
+    saveHistory(total.toFixed(4));
+    showHistory();
+}
+
+function clearZone(z) {
+    for (let a = 0; a < 8; a++) {
+        document.getElementById(`${zones[z].prefix}a${a}`).value = '';
+    }
+}
+
+function clearAll() {
+    zones.forEach((_, z) => clearZone(z));
+    document.getElementById('total').innerText = '0.0000';
+    document.getElementById('r0').innerText = '0.0000';
+    document.getElementById('r1').innerText = '0.0000';
+    document.getElementById('r2').innerText = '0.0000';
+}
+
+// 历史记录
+function saveHistory(val) {
+    const d = new Date();
+    const time = d.toLocaleString();
+    const hist = JSON.parse(localStorage.getItem('gravHist') || '[]');
+    hist.unshift({ time, total: val });
+    if (hist.length > 50) hist.splice(50);
+    localStorage.setItem('gravHist', JSON.stringify(hist));
+}
+
+function showHistory() {
+    const list = document.getElementById('historyList');
+    const hist = JSON.parse(localStorage.getItem('gravHist') || '[]');
+    if (hist.length === 0) {
+        list.innerHTML = '<div class="empty">暂无记录</div>';
+        return;
+    }
+    list.innerHTML = hist.map(h => `
+        <div class="history-item">
+            ${h.time} &nbsp; <span class="history-total">${h.total} g.u.</span>
+        </div>
+    `).join('');
+}
+
+function clearHistory() {
+    localStorage.removeItem('gravHist');
+    showHistory();
+}
+
+function exportHistory() {
+    const hist = JSON.parse(localStorage.getItem('gravHist') || '[]');
+    const content = '重力八方位地形改正记录\n========================\n' + hist.map(h => `${h.time}    ${h.total} g.u.`).join('\n');
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '地形改正记录.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+window.onload = showHistory;
+</script>
+</body>
 </html>
