@@ -1,0 +1,12 @@
+%A WANG Wei, WANG Xueqiu, ZHANG Bimin, LIU Dongsheng, LIU Hanliang, Sounthone LAOLO, Phomsylalai SOUKSAN, CHI Qinghua, ZHOU Jian, HAN Zhixuan
+%T Characterization of gold distribution in sediments and prediction of gold prospectivity in Laos
+%0 Journal Article
+%D 2025
+%J Earth Science Frontiers
+%R 10.13745/j.esf.sf.2024.10.28
+%P 78-90
+%V 32
+%N 1
+%U {https://www.earthsciencefrontiers.net.cn/CN/abstract/article_6916.shtml}
+%8 2025-01-25
+%X <p id="p00010">Under the Belt and Road initiative China and Laos have carried out national-scale 1∶1000000 geochemical mapping in Laos. This study marked the first national-scale geochemical study of gold, a dominant mineral species, in Laos, where the geochemical background and spatial distribution characteristics of gold in Laos were preliminarily investigated, and the geochemical anomaly and prospective areas of gold in Laos were delineated. A total of 2079 geochemical samples were collected and analyzed for gold element, using foam adsorption-graphite furnace atomic absorption spectrometry (FAS-GAAS), a high-precision analytical technique, and strict quality control measures. Gold contents in Laos aquatic sediments ranged between 0.10-913.70 ng/g, with mean and median (background) values of 2.44 and 1.00 ng/g, respectively. Gold occurred across the country with scattered distribution, mainly along extended large fractures affected by tectonic activities and magmatism. Using 85% quantile (1.99 ng/g) as the anomaly detecton limit, 17 gold anomaly areas were identified, with eight reaching a geochemical province scale (&gt;1000 km<sup>2</sup>); seven prospective gold mineralization zones were classified according to anomaly identification, taking into consideration the spatial distribution of gold, geologic background, regional tectonics and mineral distribution. The results provide basic information for gold exploration in Laos and fill the gap of geochemical mapping for gold exploration in Laos.</p>
